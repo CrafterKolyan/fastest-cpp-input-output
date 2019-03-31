@@ -4,6 +4,8 @@
 #include <chrono>
 #include <cstdio>
 
+#include <unistd.h>
+
 #include <sys/mman.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -84,6 +86,7 @@ unsigned int fread_buffered_binary_input(const char *file_name) {
         ret += buffer[n];
     }
 
+    free(buffer);
     fclose(input);
     return ret;
 }
@@ -101,6 +104,7 @@ unsigned int mmap_input(const char *file_name) {
     }
 
     munmap(buffer, sizeof(*buffer));
+    close(fd_input);
     return ret;
 }
 
